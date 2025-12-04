@@ -32,6 +32,12 @@ public class UserController {
         return userService.getUser(id);
     }
 
+    @GetMapping("/user/rating/{id}")
+    public User getUserRating(@PathVariable Long id)
+    {
+        return userService.getUserRating(id);
+    }
+
     // UPDATE
     @PutMapping("/{id}")
     public User updateUser(@PathVariable Long id, @RequestBody User user) {

@@ -3,6 +3,9 @@ package com.rating.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -15,8 +18,13 @@ public class Rating {
     private Long id;
 
     private String ratingId;   // UUID
-    private String userId;
+    private Long userId;
     private String hotelId;
     private int rating;
     private String feedback;
+
+    @Transient
+    private Hotel hotel;
+
+
 }

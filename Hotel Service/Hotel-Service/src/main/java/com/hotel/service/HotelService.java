@@ -14,8 +14,13 @@ public class HotelService {
 
     private final HotelRepository hotelRepository;
 
+    private String generateHotelId() {
+        Long count = hotelRepository.count() + 1;
+        return "H" + String.format("%03d", count); // H001, H002, H003...
+    }
+
     public Hotel createHotel(Hotel hotel) {
-        hotel.setHotelId(UUID.randomUUID().toString());
+        hotel.setHotelId(generateHotelId());
         return hotelRepository.save(hotel);
     }
 
@@ -24,8 +29,12 @@ public class HotelService {
     }
 
     public Hotel getHotelByHotelId(String hotelId) {
-        return hotelRepository.findByHotelId(hotelId);
+        Hotel h=hotelRepository.findByHotelId(hotelId);
+        System.out.println("###########"+h);
+        return h;
     }
+
+
 
     public Hotel updateHotel(String hotelId, Hotel hotel) {
         Hotel existing = hotelRepository.findByHotelId(hotelId);

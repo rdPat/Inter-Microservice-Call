@@ -8,13 +8,17 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = "name")
+})
 public class Hotel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String hotelId;  // Unique ID for microservices communication
+    private String hotelId;
+    @Column(unique = true)
     private String name;
     private String location;
     private String about;

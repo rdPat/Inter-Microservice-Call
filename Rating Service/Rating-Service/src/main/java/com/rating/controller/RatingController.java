@@ -34,8 +34,9 @@ public class RatingController {
 
     // GET RATINGS OF A USER
     @GetMapping("/users/{userId}")
-    public List<Rating> getByUserId(@PathVariable String userId) {
+    public List<Rating> getByUserId(@PathVariable Long userId) {
         return ratingService.getRatingsByUserId(userId);
+
     }
 
     // GET RATINGS OF A HOTEL

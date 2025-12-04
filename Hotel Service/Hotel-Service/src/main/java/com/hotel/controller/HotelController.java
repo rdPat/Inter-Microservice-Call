@@ -32,6 +32,8 @@ public class HotelController {
         return hotelService.getHotelByHotelId(hotelId);
     }
 
+
+
     // UPDATE
     @PutMapping("/{hotelId}")
     public Hotel updateHotel(@PathVariable String hotelId, @RequestBody Hotel hotel) {

@@ -1,18 +1,27 @@
 package com.rating.service;
 
+import com.rating.entity.Hotel;
 import com.rating.entity.Rating;
 import com.rating.repository.RatingRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static org.bouncycastle.asn1.x500.style.RFC4519Style.uid;
 
 @Service
 @RequiredArgsConstructor
 public class RatingService {
 
     private final RatingRepository ratingRepository;
+
+    @Autowired
+    private final RestTemplate restTemplate;
 
     public Rating createRating(Rating rating) {
         rating.setRatingId(UUID.randomUUID().toString());
@@ -27,8 +36,23 @@ public class RatingService {
         return ratingRepository.findByRatingId(ratingId);
     }
 
-    public List<Rating> getRatingsByUserId(String userId) {
-        return ratingRepository.findByUserId(userId);
+    public List<Rating> getRatingsByUserId(Long userId) {
+
+        List<Rating> response=ratingRepository.findByUserId(userId);
+        List<Hotel> h=new ArrayList<>();
+        System.out.println("#########"+response);
+        for(Rating r:response)
+        {
+            String hid=r.getHotelId();
+            Hotel hotel = restTemplate.getForObject(
+                    "http://Hotel-Service/hotels/" + hid,
+                    Hotel.class
+            );
+            r.setHotel(hotel);
+        }
+
+        return response;
+
     }
 
     public List<Rating> getRatingsByHotelId(String hotelId) {
