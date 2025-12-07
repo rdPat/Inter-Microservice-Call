@@ -42,8 +42,8 @@ public class RatingController {
     int retryCount=1;
 
     @GetMapping("/users/{userId}")
-    @CircuitBreaker(name = "ratingHotelCircuitBreaker",fallbackMethod = "ratingHotelFallbackMethod")
-    //@Retry(name="ratingHotelRetry", fallbackMethod = "ratingHotelFallbackMethod")
+    //@CircuitBreaker(name = "ratingHotelCircuitBreaker",fallbackMethod = "ratingHotelFallbackMethod")
+    @Retry(name="ratingHotelRetry", fallbackMethod = "ratingHotelFallbackMethod")
     public List<Rating> getByUserId(@PathVariable Long userId) {
         System.out.println("------------>retry count "+retryCount++);
         return ratingService.getRatingsByUserId(userId);
